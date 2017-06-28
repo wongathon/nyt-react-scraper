@@ -53,6 +53,8 @@ var Main = React.createClass({
 
         <Search setQuery={this.setQuery} />
 
+        <Results articles={this.state.results} />
+
         <Saved savedArticles={this.state.savedArticles} />
 
       </div>
