@@ -5,15 +5,16 @@
   "main": "public/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack & node server",
+    "dev": "webpack -w & node server",
     "start": "node server",
-    "build": "webpack"
+    "build": "webpack -w"
   },
   "author": "Ahmed Haque",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.12.0",
     "body-parser": "^1.15.2",
+    "cors": "^2.8.3",
     "express": "^4.14.0",
     "mongoose": "^4.5.1",
     "morgan": "^1.7.0",

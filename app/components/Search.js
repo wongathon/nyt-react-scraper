@@ -3,23 +3,30 @@ var React = require("react");
 var Search = React.createClass({
 
   getInitialState: function() {
-    return { query: "" }; //multiple items needed
+    return { 
+    topic: "",
+    startYear: "",
+    endYear: ""
+    }; //multiple items needed
     //Lookup return requirements, may need 3. 
   },
 
   handleChange: function(event) {
-
-    //handling multiple *handlechange for form fields? 
-    //Lookup handleChange
-    this.setState({ term: event.target.value });
-
-
+    event.preventDefault();
+    this.setState({ [event.target.id]: event.target.value });
   },
 
   handleSubmit: function(event) {
     event.preventDefault();
-    this.props.setQuery(this.state.query);
-    this.setState({ query: "" });
+    
+    var itemObj = this.state;
+
+    this.props.setQuery(itemObj);
+    this.setState({ 
+      topic: "",
+      startYear: "",
+      endYear: "" 
+    });
   },
 
   render: function() {
@@ -40,31 +47,27 @@ var Search = React.createClass({
                 onChange={this.handleChange}
                 required
               />
-            </div>
-            <div className="form-group">
               <h4><strong>Start Year</strong></h4>
               <input
                 value={this.state.startYear}
                 type="text"
                 className="form-control text-center"
-                id="topic"
+                id="startYear"
                 onChange={this.handleChange} //neds a fix
                 required
               />
-            </div>
-            <div className="form-group">
               <h4><strong>End Year</strong></h4>
               <input
                 value={this.state.endYear}
                 type="text"
                 className="form-control text-center"
-                id="topic"
+                id="endYear"
                 onChange={this.handleChange}
                 required
               />
+              <br />
+              <button className="btn btn-primary" type="submit">Search</button>
             </div>
-            <br />
-            <button className="btn btn-primary" type="submit">Search</button>
           {/*Topic
           //Start Year
           //End Year

@@ -3,11 +3,15 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var cors = require('cors');
 
 // Require schemas
 //var Click = require("./models/click");
+var Article = require("./models/Article");
 
 var app = express();
+app.options('*', cors());
+
 var PORT = process.env.PORT || 3000;
 
 // Run Morgan for Logging
@@ -22,7 +26,12 @@ app.use(express.static("./public"));
 // -------------------------------------------------
 
 // MongoDB configuration (Change this URL to your own DB)
-mongoose.connect("mongodb://127.0.0.1:27017/test");
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI)
+} else {
+  mongoose.connect("mongodb://localhost/nyt")
+}
+
 var db = mongoose.connection;
 
 db.on("error", function(err) {
@@ -40,11 +49,30 @@ db.once("open", function() {
 
 app.get("/api/saved", function(req, res) {
 
+  Article.find({}).exec(function(err, doc) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(doc);
+    }
+  });
 });
 
 app.post("/api/saved", function(req, res) {
 
+  let {title, url, date} = req.body;
 
+  Article.create({
+    title: title,
+    url: url,
+    date: date
+  }, function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send("Saved Search");
+    }
+  });
 });
 
 app.delete("/api/saved", function(req, res){
@@ -52,7 +80,7 @@ app.delete("/api/saved", function(req, res){
 });
 
 app.get("*", function(req, res) {
-  res.sendFile(__dirname + "/public/index.html");
+  res.sendFile("/public/index.html");
 });
 
 // -------------------------------------------------

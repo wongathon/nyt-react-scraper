@@ -8,7 +8,8 @@ var Saved = React.createClass({
           <h3 className="panel-title text-center">Saved Articles</h3>
         </div>
         <div className="panel-body text-center">
-          {this.props.savedArticles}
+          {//this.props.savedArticles
+          }
         </div>
       </div>
     );
