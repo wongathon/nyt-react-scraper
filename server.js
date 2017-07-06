@@ -49,11 +49,14 @@ db.once("open", function() {
 
 app.get("/api/saved", function(req, res) {
 
+  console.log("get route hit... attempting mongo pull");
+
   Article.find({}).exec(function(err, doc) {
     if (err) {
       console.log(err);
     } else {
-      res.send(doc);
+      console.log("mongo doc:", doc);
+      res.json(doc);
     }
   });
 });

@@ -1,6 +1,18 @@
 var React = require("react");
 
 var Saved = React.createClass({
+
+  renderArticles: function() {
+    return this.props.savedArticles.map(
+      article => 
+         (
+          <div key={article._id}>
+            <p>{article.title}</p>
+          </div>
+        )
+    );
+  },
+
   render: function() {
     return (
       <div className="panel panel-default">
@@ -10,6 +22,7 @@ var Saved = React.createClass({
         <div className="panel-body text-center">
           {//this.props.savedArticles
           }
+          {this.renderArticles()}
         </div>
       </div>
     );

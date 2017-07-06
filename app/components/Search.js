@@ -4,9 +4,9 @@ var Search = React.createClass({
 
   getInitialState: function() {
     return { 
-    topic: "",
-    startYear: "",
-    endYear: ""
+    topic: "Obama",
+    startYear: "2012",
+    endYear: "2014"
     }; //multiple items needed
     //Lookup return requirements, may need 3. 
   },

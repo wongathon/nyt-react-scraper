@@ -12,28 +12,44 @@ var Main = React.createClass({
   getInitialState: function() {
     return {
       searchQuery: {},
+      saveQuery: "",
       results: [],
       savedArticles: []
     };
   },
 
   componentDidMount: function() {
-    helpers.getArticles().then(function(response) {
 
-      if (response !== this.state.savedArticles) {
+    helpers.getArticles().then(function(response) {
+      console.log("this should be saved:" + response);
+
+      console.log(response.data);
+
+      if (response.data !== this.state.savedArticles) {
         this.setState({ savedArticles: response.data });
+        console.log(this.state.savedArticles);
       }
     }.bind(this));
   },
 
   componentDidUpdate: function(prevProps, prevState) {
 
+    //on search update
     if (this.state.searchQuery !== prevState.searchQuery){
       helpers.runQuery(this.state.searchQuery).then(function(data) {
         if (data !== this.state.results) {
           console.log("Scraped", data);
           this.setState({results: data });
         }
+      }.bind(this));
+    } else if (this.state.saveQuery !== prevState.saveQuery){
+      helpers.saveArticle(this.state.saveQuery).then(function(data) {
+
+        helpers.getArticles().then(function(response) {
+          console.log("Get saved articles!", response.data);
+          this.setState({ savedArticles: response.data });
+        }.bind(this));
+
       }.bind(this));
     };
 
@@ -42,6 +58,11 @@ var Main = React.createClass({
   setQuery: function(queryObj) {
     console.log("queryObj, Main:" + queryObj);
     this.setState({ searchQuery: queryObj });
+  },
+
+  setSaver: function(saveObjId) {
+    console.log("saveObjId passed:", saveObjId);
+    this.setState({saveQuery: saveObjId});
   },
 
   render: function() {
@@ -57,7 +78,9 @@ var Main = React.createClass({
 
             <Search setQuery={this.setQuery} />
 
-            <Results articles={this.state.results} />
+            <Results 
+              setSaver={this.setSaver}
+              articles={this.state.results} />
 
             <Saved savedArticles={this.state.savedArticles} />
           </div>
