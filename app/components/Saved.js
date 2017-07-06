@@ -7,7 +7,17 @@ var Saved = React.createClass({
       article => 
          (
           <div key={article._id}>
-            <p>{article.title}</p>
+            <div className="panel panel-default">
+              <div className="panel-heading clearfix">
+                <a href={article.web_url}><h4>{article.headline}</h4></a>
+                <button
+                  className="btn btn-danger pull-right"
+                >Delete!</button>
+              </div>
+              <div className="panel-body">
+                <p>Item saved on: {article.pub_date}</p>
+              </div>
+            </div>
           </div>
         )
     );
@@ -19,7 +29,7 @@ var Saved = React.createClass({
         <div className="panel-heading">
           <h3 className="panel-title text-center">Saved Articles</h3>
         </div>
-        <div className="panel-body text-center">
+        <div className="panel-body">
           {//this.props.savedArticles
           }
           {this.renderArticles()}

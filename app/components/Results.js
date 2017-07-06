@@ -4,20 +4,9 @@ var ResultArticle = require('./children/ResultArticle');
 
 var Results = React.createClass({
 
-  getInitialState: function() {
-    return {
-      saveMeId: "",
-    };
-  },
-
   articleSave: function(event) {
-
     console.log(event);
-
     this.props.setSaver(event);
-
-    //delete?
-    this.setState({saveMeId: ""});
   },
 
   renderArticles: function() {

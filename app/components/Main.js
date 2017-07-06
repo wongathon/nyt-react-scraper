@@ -19,15 +19,9 @@ var Main = React.createClass({
   },
 
   componentDidMount: function() {
-
     helpers.getArticles().then(function(response) {
-      console.log("this should be saved:" + response);
-
-      console.log(response.data);
-
       if (response.data !== this.state.savedArticles) {
         this.setState({ savedArticles: response.data });
-        console.log(this.state.savedArticles);
       }
     }.bind(this));
   },
@@ -38,7 +32,7 @@ var Main = React.createClass({
     if (this.state.searchQuery !== prevState.searchQuery){
       helpers.runQuery(this.state.searchQuery).then(function(data) {
         if (data !== this.state.results) {
-          console.log("Scraped", data);
+          console.log("Got them scrubbed:", data);
           this.setState({results: data });
         }
       }.bind(this));
