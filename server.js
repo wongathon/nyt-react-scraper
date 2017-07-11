@@ -60,12 +60,12 @@ app.get("/api/saved", function(req, res) {
 
 app.post("/api/saved", function(req, res) {
 
-  let {title, url, date} = req.body;
-
+  let {headline, web_url, pub_date} = req.body;
+  
   Article.create({
-    title: title,
-    url: url,
-    date: date
+    title: headline.main,
+    url: web_url,
+    date: pub_date
   }, function(err) {
     if (err) {
       console.log(err);
@@ -77,6 +77,16 @@ app.post("/api/saved", function(req, res) {
 
 app.delete("/api/saved", function(req, res){
 
+  console.log("REQ", req.query.articleID);
+  const id = req.query.articleID;
+
+  Article.findByIdAndRemove(id, function(err){
+    if (err) {
+      console.log(err);
+    } else {
+      res.send("deleted item");
+    }
+  });
 });
 
 app.get("*", function(req, res) {

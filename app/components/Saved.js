@@ -1,23 +1,20 @@
 var React = require("react");
 
+var SavedArticle = require('./children/SavedArticle');
+
 var Saved = React.createClass({
+
+  articleDelete: function(event) {
+    console.log(event);
+    this.props.setDelete(event);
+  },
 
   renderArticles: function() {
     return this.props.savedArticles.map(
       article => 
          (
           <div key={article._id}>
-            <div className="panel panel-default">
-              <div className="panel-heading clearfix">
-                <a href={article.web_url}><h4>{article.headline}</h4></a>
-                <button
-                  className="btn btn-danger pull-right"
-                >Delete!</button>
-              </div>
-              <div className="panel-body">
-                <p>Item saved on: {article.pub_date}</p>
-              </div>
-            </div>
+            <SavedArticle article={article} handleClick={this.articleDelete} />
           </div>
         )
     );

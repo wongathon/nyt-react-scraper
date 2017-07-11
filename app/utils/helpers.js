@@ -32,7 +32,7 @@ var helper = {
   },
   //CHECK
   deleteArticle: function(articleID) {
-    return axios.delete("api/saved", articleID);
+    return axios.delete("api/saved", {params: { articleID }});
   }
 };
 

@@ -14,7 +14,8 @@ var Main = React.createClass({
       searchQuery: {},
       saveQuery: "",
       results: [],
-      savedArticles: []
+      savedArticles: [],
+      deleteQuery: ""
     };
   },
 
@@ -36,8 +37,21 @@ var Main = React.createClass({
           this.setState({results: data });
         }
       }.bind(this));
+
     } else if (this.state.saveQuery !== prevState.saveQuery){
-      helpers.saveArticle(this.state.saveQuery).then(function(data) {
+      //const newArticle = ;
+      const newArticle = this.state.results.find(x => x._id === this.state.saveQuery);
+      console.log("new article match:", newArticle);
+      
+      helpers.saveArticle(newArticle).then(function(data) {
+        helpers.getArticles().then(function(response) {
+          console.log("Get saved articles!", response.data);
+          this.setState({ savedArticles: response.data });
+        }.bind(this));
+      }.bind(this));
+
+    } else if (this.state.deleteQuery !== prevState.deleteQuery){
+      helpers.deleteArticle(this.state.deleteQuery).then(function(data) {
 
         helpers.getArticles().then(function(response) {
           console.log("Get saved articles!", response.data);
@@ -59,6 +73,11 @@ var Main = React.createClass({
     this.setState({saveQuery: saveObjId});
   },
 
+  setDelete: function(deleteObjId) {
+    console.log("Delete ID passed:", deleteObjId);
+    this.setState({deleteQuery: deleteObjId});
+  },
+
   render: function() {
     return (
       <div className="container">
@@ -68,15 +87,21 @@ var Main = React.createClass({
             <hr />
             <p><em>Search for and annotate articles of interest!</em></p>
           </div>
-          <div>
-
-            <Search setQuery={this.setQuery} />
+          <div className="row">
+            <div className= "col-md-8 col-md-offset-2">
+              <Search setQuery={this.setQuery} />
+            </div>
+          </div>
+          <div className="row">
 
             <Results 
               setSaver={this.setSaver}
               articles={this.state.results} />
 
-            <Saved savedArticles={this.state.savedArticles} />
+            <Saved 
+              setDelete={this.setDelete}
+              savedArticles={this.state.savedArticles} />
+
           </div>
         </div>
       </div>

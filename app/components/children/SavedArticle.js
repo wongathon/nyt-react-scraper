@@ -1,7 +1,7 @@
 
 var React = require("react");
 
-const ResultArticle = (props) => {
+const SavedArticle = (props) => {
 
   const { article } = props;
   const { handleClick } = props;
@@ -9,21 +9,18 @@ const ResultArticle = (props) => {
   return (
     <div className="panel panel-default">
       <div className="panel-heading clearfix">
-        <a href={article.web_url}><h4>{article.headline.main}</h4></a>
+        <a href={article.url}><h4>{article.title}</h4></a>
         <button
-          className="btn btn-success pull-right"
+          className="btn btn-danger pull-right"
           onClick={() => handleClick(article._id)}
           id={article._id}
-        >Save!</button>
+        >Delete!</button>
       </div>
       <div className="panel-body">
-        {article.abstract ? article.abstract : article.snippet}
-        <p></p>
+        <p>Item saved on: {article.date}</p>
       </div>
     </div>
-  );
+  ); 
 };
 
-module.exports = ResultArticle;
-
-//
+module.exports = SavedArticle;
